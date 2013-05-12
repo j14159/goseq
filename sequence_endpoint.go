@@ -3,7 +3,7 @@ package main
 import (
     "encoding/json"
     "fmt"
-    "gocmc"
+    "github.com/j14159/gocmc"
     "net/http"
     "net/url"
     "strings"    

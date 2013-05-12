@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "net/http"
-    "gocmc"
+    "github.com/j14159/gocmc"
     "flag"
 )
 

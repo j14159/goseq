@@ -2,7 +2,7 @@ package main
 
 import (
     "fmt"
-    "gocmc"
+    "github.com/j14159/gocmc"
 )
 
 const (

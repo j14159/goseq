@@ -5,7 +5,7 @@ package main
 
 import (
     "fmt"
-    "gocmc"
+    "github.com/j14159/gocmc"
 )
 
 //Holds details for the asynchronous cache request, you should

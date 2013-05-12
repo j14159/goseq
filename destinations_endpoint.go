@@ -1,7 +1,7 @@
 package main
 
 import (
-    "gocmc"
+    "github.com/j14159/gocmc"
     "encoding/json"
     "net/http"
 )
