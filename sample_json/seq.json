@@ -1,0 +1,51 @@
+{
+	"running": true, 
+	"stepLength": 12,
+	"startTick": 12,
+	"noteOffOnStop":true,
+	"midiChannel": 1, 
+	"output": "IAC Bus 2", 
+	"steps": [
+	{
+		"notes" : [
+			{
+			    "on": true,
+			    "note": 40,
+			    "velocity" : 64
+			}]
+	},
+    {
+		"notes" : [
+		    {
+			"on": false,
+			"note": 40,
+			"velocity": 0
+		    },
+		    {
+			"on": true,
+			"note": 41,
+			"velocity": 64
+		    }]
+    },
+    {
+		"notes" : [
+		    {
+			"on": false,
+			"note": 41,
+			"velocity" : 0
+		    },
+		    {
+			"on": true,
+			"note": 50,
+			"velocity" : 64
+		    }]
+    },
+    {
+		"notes" : [
+		    {
+			"on": false,
+			"note": 50,
+			"velocity": 0
+		    }]
+    }
+]}

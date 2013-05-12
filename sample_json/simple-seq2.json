@@ -1,0 +1,7 @@
+{
+    "MidiChannel": 0,
+    "Output": "IAC Bus 2",
+    "StepLength": 6,
+    "StartTick": 48,
+    "Steps": [52, 62, 52, 62, 52, 62, 52, 62]
+}
