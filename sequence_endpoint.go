@@ -41,44 +41,24 @@ type SimpleJsonSequence struct {
 func intsToSteps(notes []int) []Step {
 	steps := make([]Step, len(notes))
 
-    
-
 	if len(notes) > 0 {
-        lastNote := notes[len(notes) -1]
+		lastNote := notes[len(notes)-1]
 		for i, n := range notes {
-            var stepNotes []gocmc.NoteEvent
-            if n > -1 {
-                //if we have a note, put it in slot 1
-                stepNotes = make([]gocmc.NoteEvent, 2)
-                lastNote = n
-                stepNotes[0] = gocmc.NoteEvent{ false, lastNote, 0 }
-                stepNotes[1] = gocmc.NoteEvent{ true, n, 127 }
-            } else if n == -1 {
-                stepNotes = make([]gocmc.NoteEvent, 1)
-                stepNotes[0] = gocmc.NoteEvent{ false, lastNote, 0 }
-            } else {
-                stepNotes = make([]gocmc.NoteEvent, 0) //empty step for a tie
-            }
-
-            steps[i] = Step{ stepNotes }
-
-            /*
-			stepNotes := make([]gocmc.NoteEvent, 2)
-            if n > -1 {
-			 stepNotes[1] = gocmc.NoteEvent{true, n, 127}
-             lastNote = n
-            }
-			if i == 0 && notes[len(notes) - 1] > -1 {
-				stepNotes[0] = gocmc.NoteEvent{ false, notes[len(notes)-1], 0 }
+			var stepNotes []gocmc.NoteEvent
+			if n > -1 {
+				//if we have a note, put it in slot 1
+				stepNotes = make([]gocmc.NoteEvent, 2)
+				lastNote = n
+				stepNotes[0] = gocmc.NoteEvent{false, lastNote, 0}
+				stepNotes[1] = gocmc.NoteEvent{true, n, 127}
+			} else if n == -1 {
+				stepNotes = make([]gocmc.NoteEvent, 1)
+				stepNotes[0] = gocmc.NoteEvent{false, lastNote, 0}
 			} else {
-                if n != -2 {
-				    stepNotes[0] = gocmc.NoteEvent{false, lastNote, 0}
-                }
+				stepNotes = make([]gocmc.NoteEvent, 0) //empty step for a tie
 			}
 
-            if n > -1 {
-			 steps[i] = Step{stepNotes}
-            }*/
+			steps[i] = Step{stepNotes}
 		}
 	}
 
