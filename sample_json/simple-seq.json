@@ -3,5 +3,5 @@
     "output": "IAC Bus 2",
     "stepLength": 6,
     "startTick": 48,
-    "steps": [40, 43, 45, 52, 40, 52, 40, 52]
+    "steps": [40, -2, 52, -1, 40, 52, 40, 52]
 }
