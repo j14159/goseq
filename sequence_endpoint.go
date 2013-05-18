@@ -75,27 +75,54 @@ func lastPathPart(url *url.URL) string {
 func (s SequenceEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	id := lastPathPart(r.URL)
 	fmt.Println("Sequence ID: ", id)
-	seq := JsonSequence{}
-	simpleSeq := SimpleJsonSequence{}
+    switch r.Method {
+    case "POST":
+        s.handlePost(id, w, r)
+    case "PUT":
+        s.handlePost(id, w, r)
+    case "GET":
+        s.handleGet(id, w, r)
+    case "DELETE":
+        s.handleDelete(id, w, r)
+    default:
+        fmt.Println("Unhandled method: ", r.Method)
+        fmt.Fprintf(w, "Method not supported")
+    }
+	
+}
 
-	buf := make([]byte, r.ContentLength)
-	r.Body.Read(buf)
+func (s SequenceEndpoint) handlePost(id string, w http.ResponseWriter, r *http.Request) {
+    seq := JsonSequence{}
+    simpleSeq := SimpleJsonSequence{}
 
-	fmt.Println("Got sequence payload:  ", string(buf))
-	if e := json.Unmarshal(buf, &seq); e == nil {
-		fmt.Fprintf(w, "ok")
-		output := s.outputCache.GetOutput(seq.Output, seq.MidiChannel)
+    buf := make([]byte, r.ContentLength)
+    r.Body.Read(buf)
 
-		sequence := Sequence{id, seq.Running, seq.StepLength, seq.StartTick, seq.NoteOffOnStop, seq.Steps, output}
-		s.controller.Add(sequence)
-	} else if e := json.Unmarshal(buf, &simpleSeq); e == nil {
-		fmt.Fprintf(w, "ok")
-		output := s.outputCache.GetOutput(simpleSeq.Output, simpleSeq.MidiChannel)
-		sequence := Sequence{id, true, simpleSeq.StepLength, simpleSeq.StartTick, true, intsToSteps(simpleSeq.Steps), output}
-		s.controller.Add(sequence)
-	} else {
-		fmt.Fprintf(w, "Problem deserializing your payload:  %s", e)
-	}
+    fmt.Println("Got sequence payload:  ", string(buf))
+    if e := json.Unmarshal(buf, &seq); e == nil {
+        fmt.Fprintf(w, "ok")
+        output := s.outputCache.GetOutput(seq.Output, seq.MidiChannel)
+
+        sequence := Sequence{id, seq.Running, seq.StepLength, seq.StartTick, seq.NoteOffOnStop, seq.Steps, output}
+        s.controller.Add(sequence)
+    } else if e := json.Unmarshal(buf, &simpleSeq); e == nil {
+        fmt.Fprintf(w, "ok")
+        output := s.outputCache.GetOutput(simpleSeq.Output, simpleSeq.MidiChannel)
+        sequence := Sequence{id, true, simpleSeq.StepLength, simpleSeq.StartTick, true, intsToSteps(simpleSeq.Steps), output}
+        s.controller.Add(sequence)
+    } else {
+        w.WriteHeader(400)
+        fmt.Fprintf(w, "Problem deserializing your sequence, check JSON")
+    }
+}
+
+func (s SequenceEndpoint) handleGet(id string, w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "GET not supported yet")
+}
+
+func (s SequenceEndpoint) handleDelete(id string, w http.ResponseWriter, r *http.Request) {
+    s.controller.SeqCon(id, SEQ_DESTROY)
+    fmt.Fprintf(w, "Sequence destroyed")
 }
 
 func StartSequenceHandler(controller Controller, client gocmc.Client) {
