@@ -77,21 +77,23 @@ func (s SequenceEndpoint) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Sequence ID: ", id)
     switch r.Method {
     case "POST":
-        s.handlePost(id, w, r)
+        s.handleSequenceAdd(id, w, r)
     case "PUT":
-        s.handlePost(id, w, r)
+        s.handleSequenceAdd(id, w, r)
     case "GET":
         s.handleGet(id, w, r)
     case "DELETE":
         s.handleDelete(id, w, r)
     default:
         fmt.Println("Unhandled method: ", r.Method)
+        w.WriteHeader(405)
         fmt.Fprintf(w, "Method not supported")
     }
-	
 }
 
-func (s SequenceEndpoint) handlePost(id string, w http.ResponseWriter, r *http.Request) {
+//Used for both PUT/POST operations on a sequence endpoint.
+//Will handle both full and simple JSON sequence data.
+func (s SequenceEndpoint) handleSequenceAdd(id string, w http.ResponseWriter, r *http.Request) {
     seq := JsonSequence{}
     simpleSeq := SimpleJsonSequence{}
 
@@ -120,6 +122,7 @@ func (s SequenceEndpoint) handleGet(id string, w http.ResponseWriter, r *http.Re
     fmt.Fprintf(w, "GET not supported yet")
 }
 
+//Handles destruction of sequences via the DELETE method.
 func (s SequenceEndpoint) handleDelete(id string, w http.ResponseWriter, r *http.Request) {
     s.controller.SeqCon(id, SEQ_DESTROY)
     fmt.Fprintf(w, "Sequence destroyed")
